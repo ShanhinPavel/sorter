@@ -2,6 +2,7 @@ class Sorter {
   constructor() {
     // your implementation
     this._elements = [];
+    this._comparator= (a, b) => a - b;
   }
 
   add(element) {
@@ -15,7 +16,7 @@ class Sorter {
 
   }
 
-  get length() {
+   get length() {
     // your implementation
    return this._elements.length;
   }
@@ -27,30 +28,21 @@ class Sorter {
 
   sort(indices) {
     // your implementation
-    //take elements from main array, sort it, and add to main array
-    let removedElements = [];
-    
-    if (indices[0] > indices[1]) {
-      removedElements = this._elements.slice(indices.length - 1, indices[0] + 1);
-      removedElements.sort(function(a, b) {return a - b});
-      
-      for (let i =0; i < removedElements.length; i++) {
-        this._elements.splice(indices.length - 1 + i, 1, removedElements[i]);
-      }
-    } else {
-      
-        removedElements = this._elements.slice(indices[0], indices.length);
-    //sorting removedElements
-      removedElements.sort(function(a, b) {return a - b});
-      
-        for (let i = 0; i <removedElements.length; i++) {
-           this._elements.splice(indices[0] + i, 1, removedElements[i]);
-      }
+    let newArray = [];
+    let length = indices.length;
+    indices = indices.sort((a, b) => a - b);
+
+    for (let index = 0; length > index; index++) {
+      newArray.push(this._elements[indices[index]]);
     }
-  }
+    newArray.sort(this._comparator);
+    for (let index =0; length > index; index++) {
+      this._elements.splice(indices[index], 1, newArray[index]);
+    }
+ return this._elments;
+}
   setComparator(compareFunction) {
-    // your implementation
-    this._elements.sort(compareFunction);
+    return this._comparator = compareFunction;
   }
 }
 
